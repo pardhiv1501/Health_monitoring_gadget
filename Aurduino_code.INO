@@ -16,7 +16,7 @@ PulseOximeter pox;
 uint32_t tsLastReport = 0;
 String str; 
 
-int Signal;                // holds the incoming raw data. Signal value can range from 0-1024
+String puls;                // holds the incoming raw data. Signal value can range from 0-1024
 int Threshold = 550;            // Determine which Signal to "count as a beat", and which to ingore.
 
 void onBeatDetected()
@@ -71,17 +71,21 @@ void loop()
         Serial.print("bpm / SpO2:");
         Serial.print(random(70, 100));
         lcd.setCursor(4, 1);
-        lcd.print(random(pox.getSo2Level());
+        lcd.print(random(pox.getSpO2()));
         
-        String t = espSerial.readString();
+        String result = espSerial.readString();
+        int ind1 = result.indexOf(';');
+        String t=result.substring(0, ind1);
+        puls=result.substring(ind1+1);
+               
         lcd.setCursor(12, 0);
         float tem = t.toFloat();
         lcd.print(tem);
         
         tsLastReport = millis();
-        Signal = analogRead(PulseSensorPurplePin);  // Read the PulseSensor's value.
         lcd.setCursor(12, 1);
-        lcd.print(Signal);
-        Serial.println(Signal);                    // Send the Signal value to Serial Plotter.
-    
+        int pulse=puls.toInt();
+        lcd.print(pulse);
+    }       
 }
+
