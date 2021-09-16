@@ -21,7 +21,7 @@ void loop() {
   float farh = mlx.readObjectTempF();
   string puls=string(analogRead(pulse));
   String t = String(farh);
-  Serial.print(t);
-  Serial.print(puls);
+  String result= t +";"+ puls;
+  Serial.print(result);
 }
 
